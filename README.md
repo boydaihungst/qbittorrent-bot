@@ -41,6 +41,32 @@ By default, only _admins_ are allowed to use the bot (users listed under `telegr
 
 You can see and change the current permissions configuration from the bot's chat, using the `/permissions` and `/pset` commands
 
+### Systemd
+
+#### Enable and start service
+
+```sh
+git clone https://github.com/boydaihungst/qbittorrent-bot
+cd qbittorrent-bot
+# make local virtual environment for python
+python3 -m venv ./venv
+# Run this if you want to run main.py directly in terminal (for testing and developing purposes).
+. venv/bin/activate
+# Use soft symlink so you can edit directly qbtbot.service file. After edit just run "sudo systemctl daemon-reload"
+# and "sudo systemctl restart qbt-bot@$USER.service" to reload daemon.
+sudo ln -s ./qbtbot.service /lib/systemd/system/qbt-bot@.service
+# Enable service for current $USER and start it immediately
+sudo systemctl daemon-reload
+sudo systemctl enable --now qbt-bot@$USER.service
+```
+
+#### Disable and stop service
+
+```sh
+sudo systemctl stop qbt-bot@$USER.service
+sudo systemctl disable qbt-bot@$USER.service
+```
+
 ### Docker
 
 Docker is only tested on Linux. It will most likeyly work on macOS too, but not on Windows: Docker doesn't create the `docker0` network interface
@@ -65,5 +91,6 @@ Docker is only tested on Linux. It will most likeyly work on macOS too, but not 
 4. run docker `docker run -d -v ${PWD}/config.toml:/app/config.toml 0one2/qbittorrent-bot`
 
 ### Currently running on...
+
 
 I made this bot to be able to manage what I'm downloading on my Raspberry running Raspbian (using qBittorrent's [headless version](https://github.com/qbittorrent/qBittorrent/wiki/Setting-up-qBittorrent-on-Ubuntu-server-as-daemon-with-Web-interface-(15.04-and-newer))), and that's the only environment I've tested this thing in. There's also the systemd file I'm using, `qbtbot.service` (which assumes you're going to run the bot in a python3 virtual environment)
