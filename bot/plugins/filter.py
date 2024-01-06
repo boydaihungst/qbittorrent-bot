@@ -1,5 +1,4 @@
 import logging
-
 # noinspection PyPackageRequirements
 from telegram import Update, BotCommand
 from telegram.ext import CommandHandler, CallbackContext
@@ -29,7 +28,7 @@ def on_filter_command(update: Update, context: CallbackContext):
         update.message.reply_text('No results for "{}"'.format(query))
         return
 
-    base_string = "• <code>{short_name_escaped}</code> ({progress_pretty}% of {size_pretty}, {share_ratio_rounded}, {state_pretty}) [<a href=\"{info_deeplink}\">info</a>]"
+    base_string = "• <code>{short_name_escaped}</code> ({progress_pretty}% of {size_pretty}, {share_ratio_rounded}, {state_pretty}) [<a href=\"{info_deeplink}\">info</a>] [<a href=\"{public_url}\">Download</a>]"
     strings_list = [torrent.string(base_string=base_string) for torrent in torrents]
 
     for strings_chunk in u.split_text(strings_list):

@@ -1,6 +1,5 @@
 import logging
 import re
-
 # noinspection PyPackageRequirements
 from telegram.ext import CallbackQueryHandler, CallbackContext, MessageHandler, Filters, CommandHandler
 # noinspection PyPackageRequirements
@@ -16,9 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 TORRENT_STRING_COMPACT = """• <code>{short_name_escaped}</code> ({progress_pretty}% of {size_pretty}, {state_pretty}, <b>{generic_speed_pretty}/s</b>) \
-[<a href="{info_deeplink}">info</a>]"""
+[<a href="{info_deeplink}">info</a>] [<a href="{public_url}">Download</a>]"""
 
-TORRENT_STRING_COMPLETED = '• <code>{name_escaped}</code> ({size_pretty})'
+TORRENT_STRING_COMPLETED = '• <code>{name_escaped}</code> ({size_pretty}) [<a href="{info_deeplink}">info</a>] [<a href="{public_url}">Download</a>]'
 
 TORRENT_CATEG_REGEX_PATTERN = r'^\/({})$'.format(r'|'.join(TORRENTS_CATEGORIES))
 TORRENT_CATEG_REGEX = re.compile(TORRENT_CATEG_REGEX_PATTERN, re.I)

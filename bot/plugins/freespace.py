@@ -15,10 +15,11 @@ logger = logging.getLogger(__name__)
 @u.check_permissions(required_permission=Permissions.ADMIN)
 @u.failwithmessage
 def on_freespace_command(update: Update, context: CallbackContext):
-    logger.info('/space from %s', update.message.from_user.first_name)
-
-    drive_free_space = u.free_space(qb.save_path)
-    text = f"{drive_free_space} free, save path: <code>{qb.save_path}</code>"
+    logger.info('/freespace from %s', update.message.from_user.first_name)
+    # do not remove downloaded torrent file
+    # qb.delete_all_permanently()
+    #text = f"Cleared storage, save path: <code>{qb.save_path}</code>"
+    text = f"feature disabled"
 
     update.message.reply_html(text)
 

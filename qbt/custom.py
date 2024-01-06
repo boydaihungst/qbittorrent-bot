@@ -69,6 +69,7 @@ NEW_ATTRS = {
     'share_ratio_rounded': lambda t: round(t['ratio'], 2),
     'dl_limit_pretty': lambda t: 'no limit' if t['dl_limit'] == -1 else u.get_human_readable(t['dl_limit']),
     'auto_tmm_string': lambda t: 'yes' if t['auto_tmm'] else 'no',
+    'public_url': lambda t: config.qbittorrent.public_url + t['content_path'].replace(t['save_path'] + "/", ""),
 }
 
 TORRENT_STRING = """<code>{name_escaped}</code>
@@ -186,7 +187,7 @@ class Torrent:
 
         base_string = base_string or TORRENT_STRING
         
-        return base_string.format(**self._torrent_dict)
+        return base_string.format(**self._torrent_dict,config=config)
 
     def pause(self):
         return self._qbt.pause(self.hash)

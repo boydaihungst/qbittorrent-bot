@@ -1,7 +1,6 @@
 import datetime
 import logging
 from collections import Counter
-
 # noinspection PyPackageRequirements
 from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext, MessageHandler, Filters
 # noinspection PyPackageRequirements
@@ -14,7 +13,7 @@ from .transfer_info import get_speed_text
 from utils import u
 from utils import kb
 from utils import Permissions
-
+import json
 logger = logging.getLogger(__name__)
 
 QUICK_INFO_TEXT = """• <b>completed:</b> {completed_count}
@@ -33,7 +32,7 @@ QUICK_INFO_TEXT = """• <b>completed:</b> {completed_count}
 <b>Last refresh:</b> {last_refresh}"""
 
 TORRENT_STRING_COMPACT = """• <code>{short_name_escaped}</code> ({progress_pretty}% of {size_pretty}, \
-{share_ratio_rounded}, <b>{generic_speed_pretty}/s</b>) [<a href="{info_deeplink}">info</a>]"""
+{share_ratio_rounded}, <b>{generic_speed_pretty}/s</b>) [<a href="{info_deeplink}">info</a>] [<a href="{public_url}">Download</a>]"""
 
 
 def get_quick_info_text(sort_active_by_dl_speed=True):
@@ -197,11 +196,11 @@ def on_free_space_button_overview(update: Update, context: CallbackContext):
     logger.info('overview: free space')
 
     try:
-        drive_free_space = u.free_space(qb.save_path)
-        text = f"{drive_free_space} free\n\n{qb.save_path}"
+        main_data = qb.sync_main_data(0)
+        drive_free_space = u.get_human_readable(main_data['server_state']['free_space_on_disk'])
+        text = f"{drive_free_space} free"
     except Exception as e:
         text = f"Exception while fetching the drive's free space: {e}"
-
     update.callback_query.answer(text, show_alert=True, cache_time=15)
 
 

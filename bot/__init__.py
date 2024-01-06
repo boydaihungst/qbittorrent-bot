@@ -29,7 +29,7 @@ def main():
 
     if qb.online:
         logger.info('registering jobs')
-        updater.job_queue.run_repeating(notify_completed, interval=120, first=60)
+        updater.job_queue.run_repeating(notify_completed, interval=60, first=60)
 
         # create the category on startup
         if config.qbittorrent.added_torrents_category:
