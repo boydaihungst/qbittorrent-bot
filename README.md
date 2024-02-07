@@ -54,7 +54,7 @@ python3 -m venv ./venv
 . venv/bin/activate
 # Use soft symlink so you can edit directly qbtbot.service file. After edit just run "sudo systemctl daemon-reload"
 # and "sudo systemctl restart qbt-bot@$USER.service" to reload daemon.
-sudo ln -s ./qbtbot.service /lib/systemd/system/qbt-bot@.service
+sudo ln ./qbtbot.service /lib/systemd/system/qbt-bot@.service
 # Enable service for current $USER and start it immediately
 sudo systemctl daemon-reload
 sudo systemctl enable --now qbt-bot@$USER.service
